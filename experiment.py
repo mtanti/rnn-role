@@ -341,7 +341,7 @@ for dataset in [ 'flickr8k', 'flickr30k' ]:
                                                                                 }))
                         captions.append(caption)
                     
-                    vocab_used = len({ word for row in captions for word in row['caption'].split(' ') })
+                    vocab_used = len({ word for caption in captions for word in caption.split(' ') })
                                 
                     with open(results_data_dir+'/'+model_name+'/generated_captions.json', 'w', encoding='utf-8') as f:
                         print(str(json.dumps([
