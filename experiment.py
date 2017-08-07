@@ -283,7 +283,7 @@ for dataset in [ 'flickr8k', 'flickr30k' ]:
                         num_params += np.prod(v.get_shape()).value
 
                     print('epoch', 'val loss', 'duration', sep='\t')
-                    start = timeit.default_timer()
+                    run_start = start = timeit.default_timer()
                     
                     validation_loss = 0
                     for i in range(len(val_images)//minibatch_size):
@@ -363,5 +363,5 @@ for dataset in [ 'flickr8k', 'flickr30k' ]:
                         print(*[ str(x) for x in [dataset, min_token_freq, vocab_size, vocab_used, layer_size, num_params, method, run]+gen_result ], sep='\t', file=f)
                     
                     print()
-                    print('Duration:', round(timeit.default_timer() - start), 's')
+                    print('Duration:', round(timeit.default_timer() - run_start), 's')
                     print()
