@@ -16,9 +16,9 @@ num_runs        = 3
 minibatch_size  = 50
 
 results_data_dir   = 'results'
-mscoco_dir         = '.../coco-caption-master' #directory to mscoco evaluation code downloaded from https://github.com/tylin/coco-caption
+mscoco_dir         = '/media/mtanti/1600F6D3236FB8C7/phd/tools/coco-caption-master' #directory to mscoco evaluation code downloaded from https://github.com/tylin/coco-caption
 def get_raw_input_data_dir(dataset):
-    return '.../'+dataset #directory to karpathy flickr8k or flickr30k dataset downloaded from http://cs.stanford.edu/people/karpathy/deepimagesent/
+    return '/media/mtanti/1600F6D3236FB8C7/phd/datasets/capgen/'+dataset+'/karpathy' #directory to karpathy flickr8k or flickr30k dataset downloaded from http://cs.stanford.edu/people/karpathy/deepimagesent/
 
 sys.path.append(mscoco_dir)
 from pycocotools.coco import COCO
@@ -79,11 +79,11 @@ class Beam(object):
     def __iter__(self):
         return iter(self.heap)
 
-with open(results_data_dir+'/results.txt', 'w', encoding='utf-8') as f:
-    print('dataset', 'min_token_freq', 'vocab_size', 'vocab_used', 'layer_size', 'num_params', 'method', 'run', 'CIDEr', 'Bleu_1', 'Bleu_2', 'Bleu_3', 'Bleu_4', 'METEOR', 'ROUGE_L', sep='\t', file=f)
+#with open(results_data_dir+'/results.txt', 'w', encoding='utf-8') as f:
+#    print('dataset', 'min_token_freq', 'vocab_size', 'vocab_used', 'layer_size', 'num_params', 'method', 'run', 'CIDEr', 'Bleu_1', 'Bleu_2', 'Bleu_3', 'Bleu_4', 'METEOR', 'ROUGE_L', sep='\t', file=f)
 
 ################################################################
-for dataset in [ 'flickr8k', 'flickr30k' ]:
+for dataset in [ 'mscoco' ]:#[ 'flickr8k', 'flickr30k', 'mscoco' ]:
     raw_input_data_dir = get_raw_input_data_dir(dataset)
 
     ################################################################
@@ -305,10 +305,10 @@ for dataset in [ 'flickr8k', 'flickr30k' ]:
                         for i in range(len(trainingset_indexes)//minibatch_size):
                             minibatch_indexes = trainingset_indexes[i*minibatch_size:(i+1)*minibatch_size]
                             sess.run(train_step, feed_dict={
-                                                            seq_in:     train_captions_in [i*minibatch_size:(i+1)*minibatch_size],
-                                                            seq_len:    train_captions_len[i*minibatch_size:(i+1)*minibatch_size],
-                                                            seq_target: train_captions_out[i*minibatch_size:(i+1)*minibatch_size],
-                                                            image:      train_images[i*minibatch_size:(i+1)*minibatch_size]
+                                                            seq_in:     train_captions_in [minibatch_indexes],
+                                                            seq_len:    train_captions_len[minibatch_indexes],
+                                                            seq_target: train_captions_out[minibatch_indexes],
+                                                            image:      train_images[minibatch_indexes]
                                                         })
                             
                         validation_loss = 0

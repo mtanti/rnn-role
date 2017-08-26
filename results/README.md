@@ -1,1 +1,1 @@
-Only results text file included with final results as model checkpoints would be too big to upload.
+Model checkpoints are too big to upload so only results and generated captions are included.
