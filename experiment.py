@@ -16,9 +16,9 @@ num_runs        = 3
 minibatch_size  = 50
 
 results_data_dir   = 'results'
-mscoco_dir         = '/media/mtanti/1600F6D3236FB8C7/phd/tools/coco-caption-master' #directory to mscoco evaluation code downloaded from https://github.com/tylin/coco-caption
+mscoco_dir         = '.../coco-caption-master' #directory to mscoco evaluation code downloaded from https://github.com/tylin/coco-caption
 def get_raw_input_data_dir(dataset):
-    return '/media/mtanti/1600F6D3236FB8C7/phd/datasets/capgen/'+dataset+'/karpathy' #directory to karpathy flickr8k or flickr30k dataset downloaded from http://cs.stanford.edu/people/karpathy/deepimagesent/
+    return '.../'+dataset #directory to karpathy flickr8k or flickr30k dataset downloaded from http://cs.stanford.edu/people/karpathy/deepimagesent/
 
 sys.path.append(mscoco_dir)
 from pycocotools.coco import COCO
@@ -79,11 +79,11 @@ class Beam(object):
     def __iter__(self):
         return iter(self.heap)
 
-#with open(results_data_dir+'/results.txt', 'w', encoding='utf-8') as f:
-#    print('dataset', 'min_token_freq', 'vocab_size', 'vocab_used', 'layer_size', 'num_params', 'method', 'run', 'CIDEr', 'Bleu_1', 'Bleu_2', 'Bleu_3', 'Bleu_4', 'METEOR', 'ROUGE_L', sep='\t', file=f)
+with open(results_data_dir+'/results.txt', 'w', encoding='utf-8') as f:
+    print('dataset', 'min_token_freq', 'vocab_size', 'vocab_used', 'layer_size', 'num_params', 'method', 'run', 'CIDEr', 'Bleu_1', 'Bleu_2', 'Bleu_3', 'Bleu_4', 'METEOR', 'ROUGE_L', sep='\t', file=f)
 
 ################################################################
-for dataset in [ 'mscoco' ]:#[ 'flickr8k', 'flickr30k', 'mscoco' ]:
+for dataset in [ 'flickr8k', 'flickr30k' ]:
     raw_input_data_dir = get_raw_input_data_dir(dataset)
 
     ################################################################
@@ -114,13 +114,6 @@ for dataset in [ 'mscoco' ]:#[ 'flickr8k', 'flickr30k', 'mscoco' ]:
         raw_dataset[split]['images'].append(image)
         raw_dataset[split]['captions'].append(caption_group)
             
-    '''
-    for split in raw_dataset:
-        for column in raw_dataset[split]:
-            raw_dataset[split][column] = raw_dataset[split][column][:100]
-    #'''
-    
-    
     with open(mscoco_dir+'/annotations/captions.json', 'w', encoding='utf-8') as f:
         print(str(json.dumps({
                 'info': {
